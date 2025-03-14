@@ -14,7 +14,7 @@ def train() -> None:
     channels = 1
     batch_size = 256
     lr = 1e-4
-    epochs = 30
+    epochs = 50
     num_classes = 10
 
     transform = transforms.Compose([
@@ -27,8 +27,8 @@ def train() -> None:
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=2)
 
     flow = Flow().to(device)
-    path_to_pth = "try_1out"
-    path_to_pthout = path_to_pth + "out.pth"
+    path_to_pth = "try_2out"
+    path_to_pthout = path_to_pth + ".pth"
     path_to_pth = path_to_pth + ".pth"
 
     if os.path.exists(path_to_pth):

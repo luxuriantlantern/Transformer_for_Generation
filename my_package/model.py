@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class TransformerBlock(nn.Module):
-    def __init__(self, embed_dim: int = 64, ff_dim: int = 256, num_heads: int = 8, dropout: float = 0.1) -> None:
+    def __init__(self, embed_dim: int = 256, ff_dim: int = 256, num_heads: int = 16, dropout: float = 0.1) -> None:
         super().__init__()
         self.embed_dim = embed_dim
         self.num_heads = num_heads
@@ -45,7 +45,7 @@ class TransformerBlock(nn.Module):
         return x
 
 class TransformerEncoder(nn.Module):
-    def __init__(self, embed_dim: int = 64, ff_dim: int = 256, num_heads: int = 8, dropout: float = 0.1 ) -> None:
+    def __init__(self, embed_dim: int = 256, ff_dim: int = 256, num_heads: int = 16, dropout: float = 0.1 ) -> None:
         super().__init__()
         self.layers = nn.ModuleList(
             [TransformerBlock(embed_dim, ff_dim, num_heads, dropout) for _ in range(num_heads)]
@@ -57,7 +57,7 @@ class TransformerEncoder(nn.Module):
         return x
 
 class TransformerDecoder(nn.Module):
-    def __init__(self, embed_dim: int = 64, ff_dim: int = 256, num_heads: int = 8, dropout: float = 0.1, image_size : int = 28 ) -> None:
+    def __init__(self, embed_dim: int = 256, ff_dim: int = 256, num_heads: int = 16, dropout: float = 0.1, image_size : int = 28 ) -> None:
         super().__init__()
         self.layers = nn.ModuleList(
             [TransformerBlock(embed_dim, ff_dim, num_heads, dropout) for _ in range(num_heads)]
@@ -70,7 +70,7 @@ class TransformerDecoder(nn.Module):
         return x
 
 class Transformer(nn.Module):
-    def __init__(self, image_size: int = 28, num_classes : int = 10, embed_dim: int = 64, ff_dim: int = 256, num_heads: int = 8, dropout: float = 0.1 ) -> None:
+    def __init__(self, image_size: int = 28, num_classes : int = 10, embed_dim: int = 256, ff_dim: int = 256, num_heads: int = 16, dropout: float = 0.1 ) -> None:
         super().__init__()
         self.embed_dim = embed_dim
         self.ff_dim = ff_dim

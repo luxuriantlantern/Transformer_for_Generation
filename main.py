@@ -3,5 +3,5 @@ from my_package.test import test_flow
 
 
 if __name__ == "__main__":
-    train()
-    # test_flow("try_1out.pth")
+    # train()
+    test_flow("try_2out.pth")
