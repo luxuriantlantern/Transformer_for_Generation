@@ -10,6 +10,10 @@ class TransformerBlock(nn.Module):
 
         self.self_attn = nn.MultiheadAttention(embed_dim, num_heads=num_heads)
         self.cross_attn = nn.MultiheadAttention(embed_dim, num_heads=num_heads)
+        self.cond_gate = nn.Sequential(
+            nn.Linear(embed_dim * 2, embed_dim),
+            nn.Sigmoid()  # 门控权重
+        )
         self.ffn = nn.Sequential(
             nn.Linear(embed_dim, ff_dim),
             nn.GELU(),
@@ -24,7 +28,13 @@ class TransformerBlock(nn.Module):
         x = x + self.dropout(self_attn)
         x = self.norm(x)
 
-        cross_attn, _ = self.cross_attn(x, condition, condition)
+        cross_attn, _ = self.cross_attn(
+            query=x,
+            key=condition + x.mean(dim=1, keepdim=True),  # 强制对齐条件与内容均值
+            value=condition
+        )
+        gate = self.cond_gate(torch.cat([x, condition], dim=-1))  # 动态门控
+        cross_attn = gate * cross_attn  # 条件重要性加权
         x = x + self.dropout(cross_attn)
         x = self.norm(x)
 

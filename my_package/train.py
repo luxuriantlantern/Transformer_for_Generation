@@ -27,7 +27,7 @@ def train() -> None:
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=2)
 
     flow = Flow().to(device)
-    path_to_pth = "try_1"
+    path_to_pth = "try_1out"
     path_to_pthout = path_to_pth + "out.pth"
     path_to_pth = path_to_pth + ".pth"
 
@@ -66,7 +66,7 @@ def train() -> None:
             writer.add_scalar("Loss/train", loss.item(), epoch * len(train_loader) + epoch)
 
         print(f'Epoch {epoch + 1}/{epochs}, Loss: {loss.item():.4f}')
-        if epoch % 10 == 0:
+        if epoch % 5 == 0:
             draw_flow(flow)
 
     writer.close()
